@@ -13,7 +13,7 @@ class Producer(Thread):
         self.name = "Producer"
         global shared_memory
         for i in range(SIZE):
-            print(f"{current_thread().name}: Writinng {int(i)}")
+            print(f"{current_thread().name}: Writing {int(i)}")
             shared_memory[i - 1] = i
 
 
