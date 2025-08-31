@@ -3,7 +3,7 @@
 import socket
 
 from async_socket import AsyncSocket
-from event_loop import EventLoop
+from event_loop import EventLoop, Coroutine
 
 BUFFER_SIZE = 1024
 ADDRESS = ("127.0.0.1", 12345)
@@ -15,7 +15,7 @@ class Server:
         print(f"Starting up on: {ADDRESS}")
         self.server_socket = AsyncSocket(socket.create_server(ADDRESS))
 
-    def start(self) -> None:
+    def start(self) -> Coroutine:
         print("Server listening for incoming connections...")
         try:
             while True:
@@ -26,7 +26,7 @@ class Server:
             self.server_socket.close()
             print("\nServer stopped.")
 
-    def serve(self, conn: AsyncSocket) -> None:
+    def serve(self, conn: AsyncSocket) -> Coroutine:
         while True:
             data = yield conn.recv(BUFFER_SIZE)
             if not data:
