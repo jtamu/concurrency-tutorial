@@ -17,6 +17,7 @@ class Worker(Protocol):
     def connection_lost(self, exc):
         """Called when the connection to the server is lost."""
         print("The server closed the connection.")
+        self.remove_temp_dir()
         asyncio.get_running_loop().stop()
 
     def process_command(self, command: bytes, data: T.Any) -> None:

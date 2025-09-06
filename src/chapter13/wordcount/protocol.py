@@ -1,6 +1,7 @@
 import os
 import asyncio
 import json
+import shutil
 import typing as T
 
 FileWithId = T.Tuple[str, str]
@@ -51,7 +52,15 @@ class Protocol(asyncio.Protocol):
     def get_temp_dir(self) -> str:
         """Returns the path to the temp directory."""
         dirname = os.path.dirname(__file__)
-        return os.path.join(dirname, TEMP_DIR)
+        tmp_dir = os.path.join(dirname, TEMP_DIR)
+        os.makedirs(tmp_dir, exist_ok=True)
+        return tmp_dir
+
+    def remove_temp_dir(self) -> None:
+        """Removes all files in the temp directory."""
+        dirname = os.path.dirname(__file__)
+        tmp_dir = os.path.join(dirname, TEMP_DIR)
+        shutil.rmtree(tmp_dir)
 
     def process_command(self, command: bytes, data) -> None:
         """Processes the received command and data."""
